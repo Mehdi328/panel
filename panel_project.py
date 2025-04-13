@@ -20,9 +20,9 @@ COLORS = {
     "green4": '#3a5a40',
     "green5": '#344e41'
 }
-######################
+#[[[[[[[[[[[[[[[[[[[[[[[[[[[
 project_list=[]
-#############################
+#]]]]]]]]]]]]]]]]]]]]]]]]]]]
 class PanelProject:
     """Class to manage panel projects."""
 
@@ -30,29 +30,84 @@ class PanelProject:
         self.root = root
         self.create_window()
     #{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{
+        
+    
+
+   
+        
+    def bar(self):
+        """Creates the main menu bar."""
+        menubar = tk.Menu(self.root)
+
+        filemenu = tk.Menu(menubar, tearoff=0)
+        filemenu.add_command(label="New", command=lambda: None)
+        filemenu.add_command(label="Open", command=lambda: None)
+        filemenu.add_separator()
+        filemenu.add_command(label="Exit", command=self.root.quit)
+        menubar.add_cascade(label="File", menu=filemenu)
+
+        editmenu = tk.Menu(menubar, tearoff=0)
+        editmenu.add_command(label="Change Language", command=self.change_language)
+        menubar.add_cascade(label="Edit", menu=editmenu)
+
+        self.root.config(menu=menubar)   
+        
+        
+           
+    #}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}
+
+    def create_window(self):
+        """Creates the Panel Project window."""
+        self.window = tk.Toplevel(self.root)
+        #self.window.title("Panel Project")
+        #self.window.geometry("600x400")
+        #self.window.configure(bg=COLORS["cream"])
+#
+        ## Title
+        #title_label = ttk.Label(
+        #    self.window, text="Panel Project Management",
+        #    font=("Corbel", 16, "bold"), background=COLORS["cream"]
+        #)
+        #title_label.pack(pady=10)
+#
+        ## Add Button
+        #add_button = tk.Button(
+        #    self.window, text="Add Panel", bg=COLORS["green_fosfori"],
+        #    command=self.add_panel
+        #)
+        #add_button.pack(pady=5)
+#
+        ## Delete Button
+        #delete_button = tk.Button(
+        #    self.window, text="Delete Panel", bg=COLORS["blue_light"],
+        #    command=self.delete_panel
+        #)
+        #delete_button.pack(pady=5)
+        
+##################################################################       
         project_name = simpledialog.askstring("New Tab", "Enter the name for the Project")
         while  project_name=='':
             ValueError
             messagebox.showerror("Error", "Please Insert a Name for Project")
             project_name = simpledialog.askstring("New Tab", "Enter the name for the Project")   
               
-        project_name=project_name.upper()
-        self.root = root
-        self.root.title(f"{project_name} Project")
-        self.root.geometry("1300x850+100+50")
-        self.root.state("zoomed") 
+        project_name=project_name
+        
+        self.window.title(f"{project_name} Project")
+        self.window.geometry("1300x850+100+50")
+        self.window.state("zoomed") 
        
         
-        self.header=ttk.Frame(root,bg=COLORS['blue_dark'],height=200,width=root.winfo_screenwidth())
+        self.header=ttk.Frame(self.window,bg=COLORS['blue_dark'],height=200,width=self.window.winfo_screenwidth())
         self.header.grid(row=0,column=0,rowspan=1,columnspan=1,sticky='snew')
         
-        self.under_header=ttk.Frame(root,bg=COLORS['green2'],height=2,width=root.winfo_screenwidth())
+        self.under_header=ttk.Frame(self.window,bg=COLORS['green2'],height=2,width=self.window.winfo_screenwidth())
         self.under_header.grid(row=1,column=0,rowspan=1,columnspan=1,sticky='snew')
         
-        self.notebook = ttk.Notebook(root,height=620,width=root.winfo_screenwidth())# ایجاد نوت‌بوک برای تب‌ها
+        self.notebook = ttk.Notebook(self.window,height=620,width=self.window.winfo_screenwidth())# ایجاد نوت‌بوک برای تب‌ها
         self.notebook.grid(row=3,column=0,rowspan=1,columnspan=1,sticky='snew') 
                  
-        self.tab_control = ttk.Notebook(root,height=620,width=root.winfo_screenwidth())
+        self.tab_control = ttk.Notebook(self.window,height=620,width=self.window.winfo_screenwidth())
         self.panel_list=[] # لیست برای ذخیره نام تب‌ها
         
         
@@ -60,22 +115,18 @@ class PanelProject:
         c=("Literal", "12", "bold")
     
         self.space_header=tk.Label(self.header,text="",width=26,background=COLORS['blue_dark'])
-        self_add_button = tk.Button(self.header, text="Add Panel",width=24,font=a,background=COLORS['green4'],foreground=COLORS['white'],command=self.add_panel)
+        self.add_button = tk.Button(self.header, text="Add Panel",width=24,font=a,background=COLORS['green4'],foreground=COLORS['white'],command=self.add_panel)
         self.delete_button = tk.Button(self.header, text="Delete Panel",width=24,justify='left',font=a,background=COLORS['green4'],foreground=COLORS['white'],command=self.delete_active_tab)
         self.excell_button = tk.Button(self.header, text="To Excell",width=24,justify='left',font=a,background=COLORS['green4'],foreground=COLORS['white'],command=self.to_excell)
         self.pdf_button=tk.Button(self.header, text="To PDF",width=24,justify='left',font=a,background=COLORS['green4'],foreground=COLORS['white'])#,command=self.to_PDF)
         self.company_lbl=tk.Label(self.header,text="گروه نرم افزاری مانی نیروی البرز",justify='left', font=('Vazir','16','bold'),foreground="white",background=COLORS['blue_dark'])
         
-        self_add_button.grid(row=0,column=1,padx=5,pady=5,sticky='snew')
+        self.add_button.grid(row=0,column=1,padx=5,pady=5,sticky='snew')
         self.delete_button.grid(row=0,column=2,padx=5,pady=5,sticky='snew')
         self.excell_button.grid(row=0,column=3,padx=5,pady=5,sticky='snew')
         self.pdf_button.grid(row=0,column=4,padx=5,pady=5,sticky='snew')
         self.space_header.grid(row=0,column=5,padx=5,pady=5,sticky='snew')
         self.company_lbl.grid(row=0,column=6,padx=5,pady=5,sticky='snew')
-        
-        
-    
-
         self.bar()
         project_list.append(project_name)
         print(project_list)
@@ -96,7 +147,7 @@ class PanelProject:
         project_top1.grid(row=1,column=0,rowspan=1,columnspan=1,sticky='sn')
 
         
-        print(self.notebook.tab)
+       
         
         
         
@@ -155,59 +206,9 @@ class PanelProject:
         ent_designer_contact.grid(row=6,column=2,rowspan=1,columnspan=1,padx=10,pady=10,sticky='snew')
         
     
-        self.panel_list.append('Project Info('+project_name+')')    
+        self.panel_list.append('Project Info('+project_name+')') 
         
-    def bar(self):
-        """Creates the main menu bar."""
-        menubar = tk.Menu(self.root)
-
-        filemenu = tk.Menu(menubar, tearoff=0)
-        filemenu.add_command(label="New", command=lambda: None)
-        filemenu.add_command(label="Open", command=lambda: None)
-        filemenu.add_separator()
-        filemenu.add_command(label="Exit", command=self.root.quit)
-        menubar.add_cascade(label="File", menu=filemenu)
-
-        editmenu = tk.Menu(menubar, tearoff=0)
-        editmenu.add_command(label="Change Language", command=self.change_language)
-        menubar.add_cascade(label="Edit", menu=editmenu)
-
-        self.root.config(menu=menubar)   
-        
-        
-           
-    #}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}
-
-    def create_window(self):
-        """Creates the Panel Project window."""
-        self.window = tk.Toplevel(self.root)
-        self.window.title("Panel Project")
-        self.window.geometry("600x400")
-        self.window.configure(bg=COLORS["cream"])
-
-        # Title
-        title_label = ttk.Label(
-            self.window, text="Panel Project Management",
-            font=("Corbel", 16, "bold"), background=COLORS["cream"]
-        )
-        title_label.pack(pady=10)
-
-        # Add Button
-        add_button = tk.Button(
-            self.window, text="Add Panel", bg=COLORS["green_fosfori"],
-            command=self.add_panel
-        )
-        add_button.pack(pady=5)
-
-        # Delete Button
-        delete_button = tk.Button(
-            self.window, text="Delete Panel", bg=COLORS["blue_light"],
-            command=self.delete_panel
-        )
-        delete_button.pack(pady=5)
-        
-##################################################################       
-        
+         
         
         
 #####################################################################
