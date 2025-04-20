@@ -1,21 +1,20 @@
 import tkinter as tk
 from tkinter import ttk, messagebox, simpledialog
-from ups_calculations import UPSBatteryAmpere
-from ups_calculations import UPSBatterySupport
-from panel_project import PanelProject
-
-
+from ups_battery_ampere import UPSBatteryAmpere
+from ups_support_time import UPSBatterySupport
+from panel_project_r3 import PanelProject
+from utilities import COLORS
 # Define global colors
-COLORS = {
-    "cream": '#dad7cd',
-    "white": 'white',
-    "blue_dark": '#00264d',
-    "blue_light": '#b3f0ff',
-    "green_fosfori": '#4dff4d',
-    "green2": '#a3b18a',
-    "green4": '#3a5a40',
-    "green5": '#344e41'
-}
+#COLORS = {
+#    "cream": '#dad7cd',
+#    "white": 'white',
+#    "blue_dark": '#00264d',
+#    "blue_light": '#b3f0ff',
+#    "green_fosfori": '#4dff4d',
+#    "green2": '#a3b18a',
+#    "green4": '#3a5a40',
+#    "green5": '#344e41'
+#    }
 class Application:
     """Main application class."""
     
@@ -28,7 +27,7 @@ class Application:
         """Initializes the main user interface."""
         self.root.title("VEBER Electrical Calculation")
         self.root.geometry("1050x450+100+50")
-        self.root.configure(bg=COLORS["cream"])
+        self.root.configure(bg=COLORS["blue_dark"])
 
         self.create_menu_bar()
 
@@ -39,7 +38,7 @@ class Application:
             text="Mani Niroo Company",
             font=('Corbel', '16', 'bold'),
             foreground=COLORS["white"],
-            background=COLORS["cream"]
+            background=COLORS["blue_dark"]
         )
         company_lbl.grid(row=2, column=4, pady=5, padx=5)
 
@@ -67,13 +66,13 @@ class Application:
             "height": 3,
             "font": ("Corbel", "12", "bold"),
             "background": COLORS["green2"],
-            "foreground": COLORS["white"]
+            "foreground": COLORS["blue_dark"]
         }
 
         buttons = [
             ("PANEL PROJECT", self.open_panel_project),
             ("UPS BATTERY AMPERE CALCULATION", self.open_ups_battery_ampere),
-            ("UPS SUPPORT TIME CALCULATION", self.open_ups_support_time)
+            ("UPS SUPPORT TIME CALCULATION",self.open_ups_support_time)
         ]
 
         for i, (text, command) in enumerate(buttons):
@@ -100,7 +99,9 @@ class Application:
     def open_ups_support_time(self):
         """Opens the UPS Support Time Calculation window."""
         UPSBatterySupport(self.root)
+        
 
+    
 # Run the application
 if __name__ == "__main__":
     root = tk.Tk()
